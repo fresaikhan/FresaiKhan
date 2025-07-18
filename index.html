@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FresaiKhan – Jewelry</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #F5F5F0;
+      color: #333;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    /* LOADING SCREEN */
+    #loader {
+      position: fixed;
+      inset: 0;
+      background: rgba(245, 245, 240, 0.95);
+      backdrop-filter: blur(15px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 1s ease, visibility 1s ease;
+    }
+    #loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+    .loader-content {
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+    }
+    .brand-name {
+      font-size: clamp(24px, 5vw, 36px);
+      color: #000000;
+      margin-top: 30px;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+    .hexagon-svg {
+      width: clamp(80px, 15vw, 120px);
+      height: clamp(80px, 15vw, 120px);
+      stroke: #D4AF37;
+      fill: none;
+      stroke-width: 3;
+      filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
+    }
+    .line {
+      stroke-dasharray: 100;
+      stroke-dashoffset: 100;
+      animation: draw-line 0.4s forwards;
+      opacity: 0;
+    }
+    .l1 { animation-delay: 0s; }
+    .l2 { animation-delay: 0.2s; }
+    .l3 { animation-delay: 0.4s; }
+    .l4 { animation-delay: 0.6s; }
+    .l5 { animation-delay: 0.8s; }
+    .l6 { animation-delay: 1s; }
+
+    @keyframes draw-line {
+      to {
+        stroke-dashoffset: 0;
+        opacity: 1;
+      }
+    }
+
+    /* HEADER */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px clamp(20px, 5vw, 60px);
+      position: fixed;
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      border-bottom: 1px solid rgba(220, 220, 220, 0.5);
+      transition: all 0.3s ease;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(18px, 4vw, 24px);
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #000000;
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .logo:hover {
+      color: #D4AF37;
+    }
+
+    nav {
+      display: flex;
+      gap: clamp(15px, 4vw, 40px);
+      align-items: center;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      font-size: clamp(12px, 2.5vw, 16px);
+      position: relative;
+      transition: all 0.3s ease;
+      padding: 8px 0;
+    }
+
+    nav a:hover {
+      color: #D4AF37;
+      transform: translateY(-2px);
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      width: 0%;
+      height: 2px;
+      background: linear-gradient(90deg, #D4AF37, #B8941F);
+      transition: width 0.3s ease;
+      border-radius: 2px;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    .cart-icon {
+      position: relative;
+      font-size: clamp(18px, 4vw, 20px);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .cart-icon:hover {
+      transform: scale(1.1);
+    }
+
+    .cart-icon::after {
+      content: "0";
+      position: absolute;
+      top: -8px;
+      right: -12px;
+      background: linear-gradient(45deg, #333, #555);
+      color: #fff;
+      border-radius: 50%;
+      padding: 2px 6px;
+      font-size: 10px;
+      font-weight: 600;
+      min-width: 18px;
+      text-align: center;
+    }
+
+    /* DROPDOWN */
+    .dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100vw;
+      padding: 30px clamp(20px, 5vw, 60px);
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      display: none;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .dropdown.active {
+      display: flex;
+      gap: 30px;
+      animation: fadeInDown 0.3s ease;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .category-card {
+      width: clamp(150px, 25vw, 200px);
+      text-align: center;
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+    }
+
+    .category-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .category-card img {
+      width: 100%;
+      height: clamp(200px, 30vw, 280px);
+      object-fit: cover;
+      border-radius: 0px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    .category-card img:hover {
+      box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+    }
+
+    .category-card p {
+      margin-top: 15px;
+      font-weight: 500;
+      font-size: clamp(14px, 3vw, 16px);
+      color: #666;
+    }
+
+    /* HERO SECTION */
+    .hero {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: clamp(100px, 20vw, 150px) clamp(20px, 5vw, 60px) clamp(40px, 10vw, 60px);
+      gap: clamp(30px, 8vw, 60px);
+      max-width: 1200px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+      min-height: 80vh;
+    }
+
+    .hero-text {
+      flex: 1;
+      min-width: 300px;
+      text-align: center;
+    }
+
+    .hero-text h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(36px, 8vw, 64px);
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #000000;
+      line-height: 1.2;
+    }
+
+    .hero-text p {
+      font-size: clamp(16px, 3vw, 18px);
+      margin-bottom: 30px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    .hero-text button {
+      padding: clamp(12px, 3vw, 15px) clamp(20px, 5vw, 30px);
+      font-size: clamp(14px, 3vw, 16px);
+      font-weight: 600;
+      border: 2px solid #333;
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      letter-spacing: 1px;
+      border-radius: 0px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-text button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .hero-text button:hover::before {
+      left: 100%;
+    }
+
+    .hero-text button:hover {
+      background: linear-gradient(45deg, #D4AF37, #B8941F);
+      color: white;
+      border-color: #D4AF37;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+    }
+
+    .hero-images-row {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
+      gap: clamp(15px, 3vw, 20px);
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .img-frame {
+      width: clamp(120px, 25vw, 260px);
+      height: clamp(180px, 35vw, 380px);
+      overflow: hidden;
+      background-color: #fff;
+      border-radius: 0px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    .img-frame:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+
+    .img-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .img-frame:hover img {
+      transform: scale(1.05);
+    }
+
+    /* PROMO SECTION */
+    .promo-section {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      padding: clamp(60px, 15vw, 100px) clamp(20px, 5vw, 60px) clamp(40px, 10vw, 60px);
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #F8F8F5, #F0F0ED);
+    }
+
+    .promo-card {
+      width: 100%;
+      max-width: 800px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: clamp(25px, 6vw, 40px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: clamp(20px, 5vw, 30px);
+      border-radius: 20px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+      backdrop-filter: blur(5px);
+      transition: all 0.3s ease;
+      flex-wrap: wrap;
+    }
+
+    .promo-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+    }
+
+    .promo-text {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .promo-text h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(24px, 5vw, 32px);
+      color: #333;
+      margin-bottom: 10px;
+      transition: color 0.4s ease;
+    }
+
+    .promo-text p {
+      font-size: clamp(14px, 3vw, 16px);
+      color: #666;
+      margin-bottom: 15px;
+      transition: color 0.4s ease;
+    }
+
+    .promo-text a {
+      color: #D4AF37;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: clamp(14px, 3vw, 16px);
+      transition: all 0.4s ease;
+      position: relative;
+    }
+
+    .promo-text a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #D4AF37;
+      transition: width 0.3s ease;
+    }
+
+    .promo-text a:hover::after {
+      width: 100%;
+    }
+
+    .promo-text:hover h2,
+    .promo-text:hover p {
+      color: #D4AF37;
+    }
+
+    .promo-image {
+      flex-shrink: 0;
+    }
+
+    .promo-image img {
+      width: clamp(120px, 25vw, 200px);
+      height: auto;
+      border-radius: 0px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .promo-image img:hover {
+      transform: scale(1.05);
+    }
+
+    /* CONTACT FOOTER */
+    .contact-footer {
+      background: linear-gradient(135deg, #EEEEEA, #E8E8E4);
+      padding: clamp(40px, 10vw, 60px) clamp(20px, 5vw, 60px);
+    }
+
+    .contact-container {
+      display: flex;
+      gap: clamp(40px, 10vw, 80px);
+      max-width: 1200px;
+      margin: 0 auto;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .contact-left {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .contact-left h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 6vw, 36px);
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .contact-left p {
+      font-size: clamp(14px, 3vw, 16px);
+      color: #555;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      padding: clamp(12px, 3vw, 15px);
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(13px, 3vw, 14px);
+      background: #fff;
+      transition: all 0.3s ease;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      outline: none;
+      border-color: #D4AF37;
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+    }
+
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder {
+      color: #999;
+    }
+
+    .contact-form button {
+      padding: clamp(12px, 3vw, 15px) clamp(25px, 6vw, 30px);
+      font-size: clamp(13px, 3vw, 14px);
+      font-weight: 600;
+      border: none;
+      background: linear-gradient(45deg, #B8941F, #D4AF37);
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      margin-top: 10px;
+      border-radius: 8px;
+      letter-spacing: 1px;
+    }
+
+    .contact-form button:hover {
+      background: linear-gradient(45deg, #D4AF37, #B8941F);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+    }
+
+    .contact-right {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .contact-right h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 6vw, 36px);
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    .contact-info {
+      margin-bottom: 40px;
+    }
+
+    .info-item {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px;
+    }
+
+    .info-item .label {
+      font-size: clamp(11px, 2.5vw, 12px);
+      color: #999;
+      font-weight: 500;
+      margin-bottom: 5px;
+      letter-spacing: 1px;
+    }
+
+    .info-item .value {
+      font-size: clamp(14px, 3vw, 16px);
+      color: #555;
+      font-weight: 500;
+    }
+
+    .contact-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .contact-btn {
+      padding: clamp(12px, 3vw, 15px) clamp(25px, 6vw, 30px);
+      font-size: clamp(13px, 3vw, 14px);
+      font-weight: 600;
+      border: 2px solid #333;
+      background: transparent;
+      color: #333;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      text-align: center;
+      border-radius: 8px;
+      letter-spacing: 1px;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .contact-btn:hover {
+      background: linear-gradient(45deg, #D4AF37, #B8941F);
+      color: #fff;
+      border-color: #D4AF37;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+    }
+
+    /* MOBILE SPECIFIC STYLES */
+    @media (max-width: 768px) {
+      .hero { 
+        flex-direction: column; 
+        text-align: center;
+        padding-top: 120px;
+      }
+      
+      .hero-images-row { 
+        width: 100%;
+        max-width: 100%;
+        justify-content: center;
+      }
+      
+      .promo-card { 
+        flex-direction: column; 
+        text-align: center;
+        padding: 30px 20px;
+      }
+      
+      .promo-image {
+        order: -1;
+      }
+      
+      .contact-container { 
+        flex-direction: column; 
+        gap: 40px; 
+      }
+      
+      .contact-buttons { 
+        flex-direction: column; 
+      }
+
+      nav {
+        gap: 20px;
+      }
+
+      .dropdown {
+        padding: 20px;
+      }
+
+      .category-card {
+        width: 140px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-images-row {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .img-frame {
+        width: 80%;
+        max-width: 200px;
+      }
+      
+      .promo-card {
+        margin: 0 10px;
+      }
+      
+      nav {
+        gap: 15px;
+      }
+      
+      nav a {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOADING SCREEN -->
+  <div id="loader">
+    <div class="loader-content">
+      <svg viewBox="0 0 100 100" class="hexagon-svg">
+        <polyline points="50,10 85,30" class="line l1" />
+        <polyline points="85,30 85,70" class="line l2" />
+        <polyline points="85,70 50,90" class="line l3" />
+        <polyline points="50,90 15,70" class="line l4" />
+        <polyline points="15,70 15,30" class="line l5" />
+        <polyline points="15,30 50,10" class="line l6" />
+      </svg>
+      <div class="brand-name">FresaiKhan</div>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <a href="index.html" class="logo">FresaiKhan</a>
+    <nav>
+      <a href="shop.html">SHOP</a>
+      <a href="about.html">ABOUT</a>
+      <a href="contact.html">CONTACT</a>
+    </nav>
+    <div class="cart-icon">👜</div>
+  </header>
+
+  <!-- CATEGORIES DROPDOWN -->
+  <div id="category-dropdown" class="dropdown">
+    <div class="category-card">
+      <img src="https://cdn.prod.website-files.com/66e1053e28584d60caa1ac5b/66f9392220d4e0b7cfbcaa2b_explore-5.jpg" alt="Watch">
+      <p>Watch</p>
+    </div>
+    <div class="category-card">
+      <img src="https://cdn.prod.website-files.com/66e1053e28584d60caa1ac5b/66f93944dbb551f6de716be0_explore-3.jpg" alt="Ring">
+      <p>Ring</p>
+    </div>
+  </div>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Live in Glamour</h1>
+      <p>Reach the perfect glamour style with our exclusive jewelry collections.</p>
+      <button onclick="window.location.href='shop.html'">SHOP NOW</button>
+    </div>
+    <div class="hero-images-row">
+      <div class="img-frame">
+        <img src="https://cdn.prod.website-files.com/66d5c8a0f16078270af4fa77/66d5c8b6f65633bf7dd0ddd7_Image-02.jpg" alt="Jewelry flatlay" />
+      </div>
+      <div class="img-frame">
+        <img src="https://cdn.prod.website-files.com/66d5c8a0f16078270af4fa77/66d5c8b63cd3dcbf3d12ce24_Image-01.jpg" alt="Model with necklace" />
+      </div>
+    </div>
+  </section>
+
+  <!-- PROMO SECTION -->
+  <section class="promo-section">
+    <div class="promo-card">
+      <div class="promo-text">
+        <h2>Luxe Abundance</h2>
+        <p>Get 20% off with our code: LUXE20.</p>
+        <a href="shop.html">View Full Collection →</a>
+      </div>
+      <div class="promo-image">
+        <img src="https://cdn.prod.website-files.com/66d5c8a0f16078270af4fa77/66d5c8b6f65633bf7dd0ddd7_Image-02.jpg" alt="Gold chain" />
+      </div>
+    </div>
+    <div class="promo-card">
+      <div class="promo-text">
+        <h2>Sparkle in Love</h2>
+        <p>Make her say yes with our 50% off rings.</p>
+        <a href="shop.html">View Full Collection →</a>
+      </div>
+      <div class="promo-image">
+        <img src="https://cdn.prod.website-files.com/66d5c8a0f16078270af4fa77/66d5c8b63cd3dcbf3d12ce24_Image-01.jpg" alt="Gold rings" />
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT FOOTER -->
+  <footer class="contact-footer">
+    <div class="contact-container">
+      <div class="contact-left">
+        <h2>Contact Us</h2>
+        <p>We'd love to hear from you! Send us a message and we'll get back to you as soon as possible.</p>
+        
+        <form class="contact-form">
+          <input type="text" placeholder="Your Name" required>
+          <input type="email" placeholder="Your Email Address" required>
+          <input type="text" placeholder="Subject" required>
+          <textarea placeholder="Your Message" rows="5" required></textarea>
+          <button type="submit">SEND MESSAGE</button>
+        </form>
+      </div>
+      
+      <div class="contact-right">
+        <h2>FRESAI KHAN</h2>
+        <div class="contact-info">
+          <div class="info-item">
+            <span class="label">PHONE</span>
+            <span class="value">+1 (555) 123-4567</span>
+          </div>
+          <div class="info-item">
+            <span class="label">E-MAIL</span>
+            <span class="value">info@axelsjewelry.com</span>
+          </div>
+        </div>
+        
+        <div class="contact-buttons">
+          <a href="about.html" class="contact-btn">ABOUT US</a>
+          <a href="contact.html" class="contact-btn">CONTACT</a>
+          <a href="shop.html" class="contact-btn">SHOP NOW</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loader').classList.add('hidden');
+      }, 3000);
+    });
+  </script>
+</body>
+</html>
