@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop - FresaiKhan</title>
+  <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #fafafa;
+      margin: 0;
+      font-family: 'Playfair Display', serif;
+      color: #222;
+    }
+    
+    /* Header Styles */
+    .header {
+      background: #fff;
+      border-bottom: 1px solid #e0e0e0;
+      padding: 16px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #222;
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+    }
+    
+    .nav-links a {
+      color: #666;
+      text-decoration: none;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      transition: color 0.3s ease;
+      position: relative;
+      padding-bottom: 8px;
+    }
+    
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #C8A882;
+      transition: width 0.3s ease;
+    }
+    
+    .nav-links a:hover {
+      color: #C8A882;
+    }
+    
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+    
+    /* Remove the active state styling - links only turn gold on hover */
+    .nav-links a.active {
+      color: #666; /* Keep default color even when active */
+    }
+    
+    .nav-links a.active::after {
+      width: 0; /* Remove underline for active state */
+    }
+    
+    /* Only show gold color and underline on hover, even for active links */
+    .nav-links a.active:hover {
+      color: #C8A882;
+    }
+    
+    .nav-links a.active:hover::after {
+      width: 100%;
+    }
+    
+    .cart-icon {
+      position: relative;
+      padding: 8px;
+      cursor: pointer;
+    }
+    
+    .cart-icon::before {
+      content: "🛒";
+      font-size: 1.2rem;
+    }
+    
+    .cart-count {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      background: #222;
+      color: #fff;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .products-section {
+      text-align: center;
+      margin-top: 48px;
+      margin-bottom: 32px;
+    }
+    
+    .products-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 36px;
+      letter-spacing: 0.01em;
+    }
+    
+    .categories-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+    
+    .category-link {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.08rem;
+      text-transform: uppercase;
+      color: #666;
+      text-decoration: none;
+      padding: 0 18px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      border: none;
+      background: none;
+      transition: color 0.2s;
+      outline: none;
+      position: relative;
+    }
+    
+    .category-link.active {
+      color: #C8A882;
+      font-weight: 700;
+    }
+    
+    .category-link:hover {
+      color: #C8A882;
+    }
+    
+    .categories-bar .divider {
+      height: 15px;
+      width: 1px;
+      background: #e0e0e0;
+      margin: 0 3px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    
+    /* Product Grid */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 38px;
+      justify-items: center;
+      align-items: stretch;
+      margin-bottom: 60px;
+    }
+    
+    .product-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(80,80,80,0.06);
+      padding: 32px 18px 28px 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: box-shadow 0.2s, opacity 0.3s;
+      opacity: 1;
+      min-width: 0;
+      min-height: 0;
+      will-change: opacity, transform;
+    }
+    
+    .product-card.hide {
+      display: none;
+    }
+    
+    .product-image-wrapper {
+      width: 170px;
+      height: 170px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+    
+    .product-image {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: transform 0.36s cubic-bezier(0.21,0.61,0.35,1);
+      will-change: transform;
+    }
+    
+    .product-card:hover .product-image,
+    .product-image-wrapper:hover .product-image {
+      transform: scale(1.12);
+    }
+    
+    .product-name {
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      font-size: 1.08rem;
+      color: #222;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    
+    .product-price {
+      font-family: 'Playfair Display', serif;
+      color: #7b7b7b;
+      font-size: 1rem;
+      font-weight: 400;
+      text-align: center;
+      letter-spacing: 0.01em;
+    }
+    
+    /* Contact Section */
+    .contact-section {
+      background: #e8e8e8;
+      padding: 80px 0;
+      margin-top: 80px;
+    }
+    
+    .contact-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .contact-form h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #222;
+      margin-bottom: 20px;
+      letter-spacing: 0.01em;
+    }
+    
+    .contact-form p {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: #666;
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-input {
+      width: 100%;
+      padding: 15px 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      background: #fff;
+      color: #333;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    
+    .form-input:focus {
+      border-color: #C8A882;
+    }
+    
+    .form-input::placeholder {
+      color: #999;
+    }
+    
+    .form-textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+    
+    .send-btn {
+      background: #C8A882;
+      color: #fff;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 8px;
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+    
+    .send-btn:hover {
+      background: #b8986f;
+      transform: translateY(-2px);
+    }
+    
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .contact-info h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #222;
+      margin-bottom: 40px;
+      letter-spacing: 0.01em;
+    }
+    
+    .info-item {
+      margin-bottom: 30px;
+    }
+    
+    .info-label {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.9rem;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+    
+    .info-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: #666;
+      font-weight: 500;
+    }
+    
+    .contact-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 40px;
+      width: 100%;
+    }
+    
+    .contact-btn {
+      background: transparent;
+      color: #666;
+      border: 2px solid #666;
+      padding: 15px 30px;
+      border-radius: 8px;
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      text-align: center;
+      display: block;
+      position: relative;
+    }
+    
+    .contact-btn:hover {
+      background: #C8A882;
+      color: #fff;
+      border-color: #C8A882;
+      transform: translateY(-2px);
+    }
+    
+    .contact-btn:hover::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 2px;
+      background: #C8A882;
+    }
+    
+    /* Responsive */
+    @media (max-width: 950px) {
+      .product-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+      }
+      .product-image-wrapper {
+        width: 140px;
+        height: 140px;
+      }
+      
+      .contact-container {
+        grid-template-columns: 1fr;
+        gap: 60px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .nav-links {
+        gap: 20px;
+      }
+      
+      .nav-links a {
+        font-size: 0.95rem;
+      }
+      
+      .logo {
+        font-size: 1.5rem;
+      }
+      
+      .contact-section {
+        padding: 60px 0;
+      }
+      
+      .contact-form h2,
+      .contact-info h3 {
+        font-size: 2rem;
+      }
+    }
+    
+    @media (max-width: 600px) {
+      .header-container {
+        padding: 0 15px;
+      }
+      
+      .nav-links {
+        gap: 15px;
+      }
+      
+      .nav-links a {
+        font-size: 0.9rem;
+      }
+      
+      .logo {
+        font-size: 1.3rem;
+      }
+      
+      .products-section h2 {
+        font-size: 1.6rem;
+      }
+      
+      .product-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      
+      .product-card {
+        padding: 22px 10px 20px 10px;
+      }
+      
+      .product-image-wrapper {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 16px;
+      }
+      
+      .category-link {
+        padding: 0 9px;
+        font-size: 1rem;
+      }
+      
+      .categories-bar .divider {
+        height: 13px;
+      }
+      
+      .contact-section {
+        padding: 40px 0;
+      }
+      
+      .contact-container {
+        padding: 0 15px;
+        gap: 40px;
+      }
+      
+      .contact-form h2,
+      .contact-info h3 {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-container">
+      <a href="index.html" class="logo">FresaiKhan</a>
+      <nav class="nav-links">
+        <a href="shop.html" class="active">SHOP</a>
+        <a href="about.html">ABOUT</a>
+        <a href="contact.html">CONTACT</a>
+        <div class="cart-icon">
+          <span class="cart-count">0</span>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+    <section class="products-section">
+      <h2>Discover Our Products</h2>
+      <nav class="categories-bar" aria-label="Product categories">
+        <button class="category-link active" data-category="all">All Products</button>
+        <span class="divider"></span>
+        <button class="category-link" data-category="2piece">2 Piece</button>
+        <span class="divider"></span>
+        <button class="category-link" data-category="3piece">3 Piece</button>
+        <span class="divider"></span>
+        <button class="category-link" data-category="dubatta">Dubatta</button>
+      </nav>
+    </section>
+    
+    <div class="product-grid" id="productGrid">
+      <!-- 2 Piece -->
+      <div class="product-card" data-category="2piece">
+        <div class="product-image-wrapper">
+          <img class="product-image" src="https://cdn.prod.website-files.com/66e1053e28584d60caa1ac5b/66e11e31791da61ffc7f3fad_a.avif" alt="Guard Bangle Bracelet">
+        </div>
+        <div class="product-name">Guard Bangle Bracelet</div>
+        <div class="product-price">$129.99 USD</div>
+      </div>
+      
+      <div class="product-card" data-category="2piece">
+        <div class="product-image-wrapper">
+          <img class="product-image" src="https://cdn.prod.website-files.com/66e1053e28584d60caa1ac5b/66e1189aaa91640cac115841_1.avif" alt="Heart Necklace">
+        </div>
+        <div class="product-name">Heart Necklace</div>
+        <div class="product-price">$149.99 USD</div>
+      </div>
+      
+      <!-- 3 Piece -->
+      <div class="product-card" data-category="3piece">
+        <div class="product-image-wrapper">
+          <img class="product-image" src="https://cdn.prod.website-files.com/66e1053e28584d60caa1ac5b/66e11a34626179492c762c79_1.webp" alt="Knot Gold Necklace">
+        </div>
+        <div class="product-name">Knot Gold Necklace</div>
+        <div class="product-price">$179.99 USD</div>
+      </div>
+      
+      <div class="product-card" data-category="3piece">
+        <div class="product-image-wrapper">
+          <img class="product-image" src="https://cdn.prod.website-files.com/66e1053e28584d60caa1ac5b/66e11d7e10bf16edba618c39_1.avif" alt="Birthday Charm Bracelet">
+        </div>
+        <div class="product-name">Birthday Charm Bracelet</div>
+        <div class="product-price">$69.99 USD</div>
+      </div>
+      
+      <!-- Dubatta -->
+      <div class="product-card" data-category="dubatta">
+        <div class="product-image-wrapper">
+          <img class="product-image" src="https://cdn.prod.website-files.com/66e1053e28584d60caa1ac5b/66e11069917a5e7a9175b62d_1.avif" alt="EVE Angelic Earrings">
+        </div>
+        <div class="product-name">EVE Angelic Earrings</div>
+        <div class="product-price">$139.99 USD</div>
+      </div>
+      
+      <div class="product-card" data-category="dubatta">
+        <div class="product-image-wrapper">
+          <img class="product-image" src="https://cdn.prod.website-files.com/66e1053e28584d60caa1ac5b/66e12acd0be34bb195d35e04_1.avif" alt="Gold Pearl Ring">
+        </div>
+        <div class="product-name">Gold Pearl Ring</div>
+        <div class="product-price">$499.99 USD</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Contact Section -->
+  <section class="contact-section">
+    <div class="contact-container">
+      <div class="contact-form">
+        <h2>Contact Us</h2>
+        <p>We'd love to hear from you! Send us a message and we'll get back to you as soon as possible.</p>
+        
+        <form>
+          <div class="form-group">
+            <input type="text" class="form-input" placeholder="Your Name" required>
+          </div>
+          
+          <div class="form-group">
+            <input type="email" class="form-input" placeholder="Your Email Address" required>
+          </div>
+          
+          <div class="form-group">
+            <input type="text" class="form-input" placeholder="Subject" required>
+          </div>
+          
+          <div class="form-group">
+            <textarea class="form-input form-textarea" placeholder="Your Message" required></textarea>
+          </div>
+          
+          <button type="submit" class="send-btn">Send Message</button>
+        </form>
+      </div>
+      
+      <div class="contact-info">
+        <h3>FRESAI KHAN</h3>
+        
+        <div class="info-item">
+          <div class="info-label">Phone</div>
+          <div class="info-value">+1 (555) 123-4567</div>
+        </div>
+        
+        <div class="info-item">
+          <div class="info-label">E-mail</div>
+          <div class="info-value">info@axelsjewelry.com</div>
+        </div>
+        
+        <div class="contact-buttons">
+          <a href="about.html" class="contact-btn">About Us</a>
+          <a href="contact.html" class="contact-btn">Contact</a>
+          <a href="shop.html" class="contact-btn">Shop Now</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <script>
+    // Navigation link interaction
+    const navLinks = document.querySelectorAll('.nav-links a');
+    
+    navLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        // Don't prevent default for actual navigation
+        
+        // Remove active class from all nav links
+        navLinks.forEach(l => l.classList.remove('active'));
+        
+        // Add active class to clicked link
+        this.classList.add('active');
+      });
+    });
+    
+    // Filtering with smooth transition
+    const categoryLinks = document.querySelectorAll('.category-link');
+    const productCards = document.querySelectorAll('.product-card');
+
+    categoryLinks.forEach(link => {
+      link.addEventListener('click', function() {
+        // Remove active from all, add to current
+        categoryLinks.forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+
+        const category = this.getAttribute('data-category');
+        
+        productCards.forEach(card => {
+          // Always remove 'hide' first for transition to work
+          card.classList.remove('hide');
+          // If not 'all', fade out products not in category
+          if (category !== 'all' && card.getAttribute('data-category') !== category) {
+            card.classList.add('hide');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
