@@ -1,703 +1,602 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shop - FresaiKhan</title>
-  <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FresaiKha | Shop</title>
+  <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,400&display=swap" rel="stylesheet">
   <style>
-    body {
-      background: #fafafa;
+    :root {
+      --main-dark: #1e1e1e;
+      --light-bg: #fcfcfc;
+      --border: #f5f5f5;
+      --gold: #D4AF37;
+      --gold2: #b8941f;
+      --light-grey: #f8f6f3;
+      --grey: #a2a2a2;
+      --lux-shadow: 0 2px 24px rgba(220, 190, 90, 0.07), 0 1px 0 #ece8e1;
+    }
+    html, body {
+      height: 100%;
       margin: 0;
+      padding: 0;
+      background: var(--light-bg);
       font-family: 'Playfair Display', serif;
-      color: #222;
+      color: var(--main-dark);
+      box-sizing: border-box;
+      letter-spacing: 0.02em;
+      min-width: 340px;
     }
-    
-    /* Header Styles */
-    .header {
-      background: #fff;
-      border-bottom: 1px solid #e0e0e0;
-      padding: 16px 0;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    }
-    
-    .header-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
+    /* HEADER */
+    header {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding: 14px 48px 8px 85px;
+      width: 100vw;
+      background: #fff;
+      border-bottom: 1px solid #eee;
+      min-height: 56px;
+      box-sizing: border-box;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
-    
     .logo {
       font-family: 'Playfair Display', serif;
-      font-size: 1.8rem;
       font-weight: 700;
+      font-size: 1.75rem;
+      letter-spacing: 0.04em;
+      color: #212121;
+      margin-right: 28px;
+      user-select: none;
+      white-space: nowrap;
+      line-height: 1;
+      text-decoration: none;
+    }
+    nav {
+      display: flex;
+      gap: 48px;
+      align-items: center;
+      margin-right: 20px;
+      flex: 1 1 auto;
+      justify-content: center;
+    }
+    nav a {
+      font-size: 1.0rem;
       color: #222;
       text-decoration: none;
-      letter-spacing: 0.01em;
-    }
-    
-    .nav-links {
-      display: flex;
-      gap: 40px;
-      align-items: center;
-    }
-    
-    .nav-links a {
-      color: #666;
-      text-decoration: none;
-      font-family: 'Playfair Display', serif;
+      letter-spacing: 0.04em;
       font-weight: 700;
-      font-size: 1rem;
-      text-transform: uppercase;
-      letter-spacing: 0.02em;
-      transition: color 0.3s ease;
+      transition: color 0.17s;
+      padding: 4px 0;
       position: relative;
-      padding-bottom: 8px;
     }
-    
-    .nav-links a::after {
-      content: '';
+    nav a:hover {
+      color: #D4AF37;
+    }
+    nav a::after {
+      content: "";
       position: absolute;
+      left: 50%;
       bottom: 0;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: #C8A882;
-      transition: width 0.3s ease;
+      transform: translateX(-50%) scaleX(0);
+      width: 88%;
+      height: 2.1px;
+      background: linear-gradient(90deg, #D4AF37, #b8941f 70%);
+      border-radius: 2px;
+      opacity: 0.88;
+      transition: transform 0.33s cubic-bezier(.69,.18,.36,1.09);
+      pointer-events: none;
     }
-    
-    .nav-links a:hover {
-      color: #C8A882;
+    nav a:hover::after {
+      transform: translateX(-50%) scaleX(1);
     }
-    
-    .nav-links a:hover::after {
-      width: 100%;
-    }
-    
-    /* Remove the active state styling - links only turn gold on hover */
-    .nav-links a.active {
-      color: #666; /* Keep default color even when active */
-    }
-    
-    .nav-links a.active::after {
-      width: 0; /* Remove underline for active state */
-    }
-    
-    /* Only show gold color and underline on hover, even for active links */
-    .nav-links a.active:hover {
-      color: #C8A882;
-    }
-    
-    .nav-links a.active:hover::after {
-      width: 100%;
-    }
-    
-    .cart-icon {
+    .cart-spot {
       position: relative;
-      padding: 8px;
-      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      width: 42px;
+      height: 15px;
+      margin-right: 22px;
     }
-    
-    .cart-icon::before {
-      content: "🛒";
-      font-size: 1.2rem;
+    .cart-emoji {
+      font-size: 1.4rem;
+      line-height: 1;
+      filter: drop-shadow(0 2px 0 #eee);
+      z-index: 2;
     }
-    
+    .cart-icon:hover {
+      transform: scale(1.1);
+    }
     .cart-count {
       position: absolute;
-      top: -2px;
-      right: -2px;
-      background: #222;
+      top: -10px;
+      right: -10px;
+      background: #444;
       color: #fff;
-      border-radius: 50%;
-      width: 18px;
-      height: 18px;
+      min-width: 23px;
+      height: 12px;
+      border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.7rem;
-      font-weight: 600;
-    }
-    
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-    
-    .products-section {
-      text-align: center;
-      margin-top: 48px;
-      margin-bottom: 32px;
-    }
-    
-    .products-section h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.5rem;
+      font-size: 0.8rem;
       font-weight: 700;
-      margin-bottom: 36px;
+      font-family: Arial, sans-serif;
+      box-shadow: 0 2px 10px #ccc;
+      z-index: 3;
       letter-spacing: 0.01em;
     }
-    
+    @media (max-width: 700px) {
+      header { padding: 10px 10vw 7px 7vw; }
+      nav { gap: 22px; }
+      .logo { font-size: 1.19rem; }
+      .cart-spot { width: 33px;}
+    }
+    /* SECTION TITLE */
+    .shop-title {
+      text-align: center;
+      font-size: 2.7rem;
+      font-family: 'Playfair Display', serif;
+      font-weight: 400;
+      margin-bottom: 26px;
+      margin-top: 16px;
+      letter-spacing: 0.04em;
+      color: #242424;
+      padding: 0;
+      opacity: 0.97;
+    }
+    /* CATEGORIES */
     .categories-bar {
       display: flex;
       justify-content: center;
       align-items: center;
       gap: 0;
-      margin-bottom: 18px;
-      flex-wrap: wrap;
-    }
-    
-    .category-link {
+      margin: 56px 0 36px 0;
+      padding: 0;
       font-family: 'Playfair Display', serif;
       font-size: 1.08rem;
       text-transform: uppercase;
-      color: #666;
-      text-decoration: none;
-      padding: 0 18px;
-      font-weight: 500;
-      letter-spacing: 0.01em;
-      cursor: pointer;
-      border: none;
+      letter-spacing: 0.09em;
       background: none;
-      transition: color 0.2s;
+      border: none;
+      user-select: none;
+    }
+    .cat-btn {
+      background: none;
+      border: none;
+      padding: 0 34px;
+      color: #6e665c;
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: 400;
+      cursor: pointer;
       outline: none;
+      transition: color 0.18s, border-bottom 0.18s;
       position: relative;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      border-bottom: 2px solid transparent;
     }
-    
-    .category-link.active {
-      color: #C8A882;
-      font-weight: 700;
+    .cat-btn.active,
+    .cat-btn:hover {
+      color: #D4AF37;
+      border-bottom: 2.4px solid #D4AF37;
+      background: none;
     }
-    
-    .category-link:hover {
-      color: #C8A882;
-    }
-    
     .categories-bar .divider {
-      height: 15px;
-      width: 1px;
-      background: #e0e0e0;
-      margin: 0 3px;
+      width: 1.5px;
+      height: 18px;
+      background: var(--border);
+      margin: 0 -2px;
       display: inline-block;
       vertical-align: middle;
     }
-    
-    /* Product Grid */
+    /* SECTION TITLE */
+    .shop-title {
+      text-align: center;
+      font-size: 2.7rem;
+      font-family: 'Playfair Display', serif;
+      font-weight: 400;
+      margin-bottom: 26px;
+      margin-top: 16px;
+      letter-spacing: 0.04em;
+      color: #242424;
+      padding: 0;
+      opacity: 0.97;
+    }
+    /* PRODUCT GRID */
     .product-grid {
+      max-width: 1360px;
+      margin: 0 auto 72px auto;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 38px;
+      gap: 56px 42px;
       justify-items: center;
-      align-items: stretch;
-      margin-bottom: 60px;
+      align-items: flex-start;
+      background: none;
+      padding: 0 0 0 0;
+      box-sizing: border-box;
     }
-    
     .product-card {
       background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 4px 16px rgba(80,80,80,0.06);
-      padding: 32px 18px 28px 18px;
+      border: 1.2px solid #f2ede5;
+      border-radius: 0;
+      box-shadow: var(--lux-shadow);
       display: flex;
       flex-direction: column;
       align-items: center;
-      transition: box-shadow 0.2s, opacity 0.3s;
-      opacity: 1;
+      padding: 40px 8px 36px 8px;
       min-width: 0;
       min-height: 0;
-      will-change: opacity, transform;
+      width: 100%;
+      transition: border-color 0.18s, box-shadow 0.18s, transform 0.22s;
+      margin: 0;
+      cursor: pointer;
+      animation: fadein 0.88s cubic-bezier(.66,.24,.37,1.05);
+      opacity: 0.97;
+      position: relative;
     }
-    
-    .product-card.hide {
-      display: none;
+    .product-card.hide { display: none !important; }
+    .product-card:hover {
+      border-color: #b8941f;
+      box-shadow: 0 8px 40px rgba(212,175,55,0.09), 0 1.5px 0 #f6f3ea;
+      transform: translateY(-6px) scale(1.016);
+      z-index: 2;
     }
-    
     .product-image-wrapper {
-      width: 170px;
-      height: 170px;
+      width: 138px;
+      height: 138px;
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
       margin-bottom: 24px;
+      background: none;
     }
-    
     .product-image {
-      width: 100%;
-      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
       object-fit: contain;
-      transition: transform 0.36s cubic-bezier(0.21,0.61,0.35,1);
-      will-change: transform;
+      display: block;
+      background: transparent;
+      transition: transform 0.36s cubic-bezier(.21,.61,.35,1);
     }
-    
-    .product-card:hover .product-image,
-    .product-image-wrapper:hover .product-image {
-      transform: scale(1.12);
+    .product-card:hover .product-image {
+      transform: scale(1.10) rotate(-1.5deg);
     }
-    
     .product-name {
       font-family: 'Playfair Display', serif;
-      font-weight: 600;
       font-size: 1.08rem;
-      color: #222;
+      color: #232323;
       margin-bottom: 10px;
       text-align: center;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      opacity: 0.96;
     }
-    
     .product-price {
       font-family: 'Playfair Display', serif;
-      color: #7b7b7b;
-      font-size: 1rem;
+      color: #928f8b;
+      font-size: 0.99rem;
       font-weight: 400;
       text-align: center;
       letter-spacing: 0.01em;
+      margin-top: 2px;
+      opacity: 0.96;
     }
-    
-    /* Contact Section */
-    .contact-section {
-      background: #e8e8e8;
-      padding: 80px 0;
-      margin-top: 80px;
+    @keyframes fadein {
+      from { opacity: 0; transform: translateY(36px);}
+      to { opacity: 1; transform: none;}
     }
-    
+    /* CONTACT FOOTER (Your provided CSS) */
+    .contact-footer {
+      background: linear-gradient(135deg, #EEEEEA, #E8E8E4);
+      padding: clamp(40px, 10vw, 60px) clamp(20px, 5vw, 60px);
+    }
     .contact-container {
+      display: flex;
+      gap: clamp(40px, 10vw, 80px);
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 20px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: start;
+      align-items: flex-start;
+      flex-wrap: wrap;
     }
-    
+    .contact-left {
+      flex: 1;
+      min-width: 300px;
+    }
+    .contact-left h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 6vw, 36px);
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .contact-left p {
+      font-size: clamp(14px, 3vw, 16px);
+      color: #555;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
     .contact-form {
       display: flex;
       flex-direction: column;
+      gap: 15px;
     }
-    
-    .contact-form h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: #222;
-      margin-bottom: 20px;
-      letter-spacing: 0.01em;
-    }
-    
-    .contact-form p {
-      font-family: 'Playfair Display', serif;
-      font-size: 1rem;
-      color: #666;
-      margin-bottom: 40px;
-      line-height: 1.6;
-    }
-    
-    .form-group {
-      margin-bottom: 20px;
-    }
-    
-    .form-input {
-      width: 100%;
-      padding: 15px 20px;
+    .contact-form input,
+    .contact-form textarea {
+      padding: clamp(12px, 3vw, 15px);
       border: 1px solid #ddd;
       border-radius: 8px;
-      font-family: 'Playfair Display', serif;
-      font-size: 1rem;
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(13px, 3vw, 14px);
       background: #fff;
-      color: #333;
+      transition: all 0.3s ease;
+    }
+    .contact-form input:focus,
+    .contact-form textarea:focus {
       outline: none;
-      transition: border-color 0.2s;
+      border-color: #D4AF37;
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
     }
-    
-    .form-input:focus {
-      border-color: #C8A882;
-    }
-    
-    .form-input::placeholder {
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder {
       color: #999;
     }
-    
-    .form-textarea {
-      min-height: 120px;
-      resize: vertical;
-    }
-    
-    .send-btn {
-      background: #C8A882;
-      color: #fff;
-      border: none;
-      padding: 15px 30px;
-      border-radius: 8px;
-      font-family: 'Playfair Display', serif;
-      font-size: 1rem;
+    .contact-form button {
+      padding: clamp(12px, 3vw, 15px) clamp(25px, 6vw, 30px);
+      font-size: clamp(13px, 3vw, 14px);
       font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      border: none;
+      background: linear-gradient(45deg, #B8941F, #D4AF37);
+      color: #fff;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.4s ease;
       margin-top: 10px;
+      border-radius: 8px;
+      letter-spacing: 1px;
     }
-    
-    .send-btn:hover {
-      background: #b8986f;
+    .contact-form button:hover {
+      background: linear-gradient(45deg, #D4AF37, #B8941F);
       transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
     }
-    
-    .contact-info {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
+    .contact-right {
+      flex: 1;
+      min-width: 300px;
     }
-    
-    .contact-info h3 {
+    .contact-right h2 {
       font-family: 'Playfair Display', serif;
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: #222;
-      margin-bottom: 40px;
-      letter-spacing: 0.01em;
-    }
-    
-    .info-item {
+      font-size: clamp(28px, 6vw, 36px);
+      color: #333;
       margin-bottom: 30px;
     }
-    
-    .info-label {
-      font-family: 'Playfair Display', serif;
-      font-size: 0.9rem;
-      color: #999;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 8px;
+    .contact-info {
+      margin-bottom: 40px;
     }
-    
-    .info-value {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
-      color: #666;
+    .info-item {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px;
+    }
+    .info-item .label {
+      font-size: clamp(11px, 2.5vw, 12px);
+      color: #999;
+      font-weight: 500;
+      margin-bottom: 5px;
+      letter-spacing: 1px;
+    }
+    .info-item .value {
+      font-size: clamp(14px, 3vw, 16px);
+      color: #555;
       font-weight: 500;
     }
-    
     .contact-buttons {
       display: flex;
       flex-direction: column;
-      gap: 15px;
-      margin-top: 40px;
-      width: 100%;
+      gap: 10px;
     }
-    
     .contact-btn {
-      background: transparent;
-      color: #666;
-      border: 2px solid #666;
-      padding: 15px 30px;
-      border-radius: 8px;
-      font-family: 'Playfair Display', serif;
-      font-size: 1rem;
+      padding: clamp(12px, 3vw, 15px) clamp(25px, 6vw, 30px);
+      font-size: clamp(13px, 3vw, 14px);
       font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      border: 2px solid #333;
+      background: transparent;
+      color: #333;
       cursor: pointer;
-      transition: all 0.3s ease;
-      text-decoration: none;
+      transition: all 0.4s ease;
       text-align: center;
-      display: block;
-      position: relative;
+      border-radius: 8px;
+      letter-spacing: 1px;
     }
-    
     .contact-btn:hover {
-      background: #C8A882;
+      background: linear-gradient(45deg, #D4AF37, #B8941F);
       color: #fff;
-      border-color: #C8A882;
+      border-color: #D4AF37;
       transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
     }
-    
-    .contact-btn:hover::after {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80%;
-      height: 2px;
-      background: #C8A882;
+    @media (max-width: 1200px) {
+      header {padding: 10px 8vw 7px 7vw;}
+      .product-grid {gap: 32px 12px;}
     }
-    
-    /* Responsive */
-    @media (max-width: 950px) {
-      .product-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 32px;
-      }
-      .product-image-wrapper {
-        width: 140px;
-        height: 140px;
-      }
-      
-      .contact-container {
-        grid-template-columns: 1fr;
-        gap: 60px;
-      }
+    @media (max-width: 970px) {
+      .product-grid {grid-template-columns: 1fr 1fr;}
     }
-    
-    @media (max-width: 768px) {
-      .nav-links {
-        gap: 20px;
-      }
-      
-      .nav-links a {
-        font-size: 0.95rem;
-      }
-      
-      .logo {
-        font-size: 1.5rem;
-      }
-      
-      .contact-section {
-        padding: 60px 0;
-      }
-      
-      .contact-form h2,
-      .contact-info h3 {
-        font-size: 2rem;
-      }
+    @media (max-width: 680px) {
+      header { flex-direction: column; padding: 9px 3vw 9px 4vw; align-items: flex-start;}
+      .logo {margin-right: 0;}
+      nav { gap: 22px;}
+      .product-grid {grid-template-columns: 1fr;}
+      .categories-bar {margin-top: 32px;}
+      .shop-title {font-size: 1.6rem;}
+      .product-card {padding: 20px 2px 18px 2px;}
+      .product-image-wrapper {width: 90px; height: 90px;}
+      .contact-container {flex-direction: column; gap: 32px;}
     }
-    
-    @media (max-width: 600px) {
-      .header-container {
-        padding: 0 15px;
-      }
-      
-      .nav-links {
-        gap: 15px;
-      }
-      
-      .nav-links a {
-        font-size: 0.9rem;
-      }
-      
-      .logo {
-        font-size: 1.3rem;
-      }
-      
-      .products-section h2 {
-        font-size: 1.6rem;
-      }
-      
-      .product-grid {
-        grid-template-columns: 1fr;
-        gap: 24px;
-      }
-      
-      .product-card {
-        padding: 22px 10px 20px 10px;
-      }
-      
-      .product-image-wrapper {
-        width: 100px;
-        height: 100px;
-        margin-bottom: 16px;
-      }
-      
-      .category-link {
-        padding: 0 9px;
-        font-size: 1rem;
-      }
-      
-      .categories-bar .divider {
-        height: 13px;
-      }
-      
-      .contact-section {
-        padding: 40px 0;
-      }
-      
-      .contact-container {
-        padding: 0 15px;
-        gap: 40px;
-      }
-      
-      .contact-form h2,
-      .contact-info h3 {
-        font-size: 1.6rem;
-      }
-    }
+    button:focus, .cat-btn:focus, .cart-btn:focus, .nav-link:focus {outline: none;}
   </style>
 </head>
 <body>
-  <!-- Header -->
-  <header class="header">
-    <div class="header-container">
-      <a href="index.html" class="logo">FresaiKhan</a>
-      <nav class="nav-links">
-        <a href="shop.html" class="active">SHOP</a>
-        <a href="about.html">ABOUT</a>
-        <a href="contact.html">CONTACT</a>
-        <div class="cart-icon">
-          <span class="cart-count">0</span>
-        </div>
-      </nav>
-    </div>
+  <!-- HEADER -->
+  <header>
+    <a href="index.html" class="logo">FresaiKhan</a>
+    <nav>
+      <a href="shop.html">SHOP</a>
+      <a href="about.html">ABOUT</a>
+      <a href="contact.html">CONTACT</a>
+    </nav>
+    <span class="cart-spot">
+      <span class="cart-count">0</span>
+      <span class="cart-emoji" title="Cart">👜</span>
+    </span>
   </header>
-
-  <div class="container">
-    <section class="products-section">
-      <h2>Discover Our Products</h2>
-      <nav class="categories-bar" aria-label="Product categories">
-        <button class="category-link active" data-category="all">All Products</button>
-        <span class="divider"></span>
-        <button class="category-link" data-category="2piece">2 Piece</button>
-        <span class="divider"></span>
-        <button class="category-link" data-category="3piece">3 Piece</button>
-        <span class="divider"></span>
-        <button class="category-link" data-category="dubatta">Dubatta</button>
-      </nav>
-    </section>
-    
-    <div class="product-grid" id="productGrid">
-      <!-- 2 Piece -->
-      <div class="product-card" data-category="2piece">
-        <div class="product-image-wrapper">
-          <img class="product-image" src="https://cdn.prod.website-files.com/66e1053e28584d60caa1ac5b/66e11e31791da61ffc7f3fad_a.avif" alt="Guard Bangle Bracelet">
-        </div>
-        <div class="product-name">Guard Bangle Bracelet</div>
-        <div class="product-price">$129.99 USD</div>
-      </div>
-      
-      <div class="product-card" data-category="2piece">
-        <div class="product-image-wrapper">
-          <img class="product-image" src="https://cdn.prod.website-files.com/66e1053e28584d60caa1ac5b/66e1189aaa91640cac115841_1.avif" alt="Heart Necklace">
-        </div>
-        <div class="product-name">Heart Necklace</div>
-        <div class="product-price">$149.99 USD</div>
-      </div>
-      
-      <!-- 3 Piece -->
-      <div class="product-card" data-category="3piece">
-        <div class="product-image-wrapper">
-          <img class="product-image" src="https://cdn.prod.website-files.com/66e1053e28584d60caa1ac5b/66e11a34626179492c762c79_1.webp" alt="Knot Gold Necklace">
-        </div>
-        <div class="product-name">Knot Gold Necklace</div>
-        <div class="product-price">$179.99 USD</div>
-      </div>
-      
-      <div class="product-card" data-category="3piece">
-        <div class="product-image-wrapper">
-          <img class="product-image" src="https://cdn.prod.website-files.com/66e1053e28584d60caa1ac5b/66e11d7e10bf16edba618c39_1.avif" alt="Birthday Charm Bracelet">
-        </div>
-        <div class="product-name">Birthday Charm Bracelet</div>
-        <div class="product-price">$69.99 USD</div>
-      </div>
-      
-      <!-- Dubatta -->
-      <div class="product-card" data-category="dubatta">
-        <div class="product-image-wrapper">
-          <img class="product-image" src="https://cdn.prod.website-files.com/66e1053e28584d60caa1ac5b/66e11069917a5e7a9175b62d_1.avif" alt="EVE Angelic Earrings">
-        </div>
-        <div class="product-name">EVE Angelic Earrings</div>
-        <div class="product-price">$139.99 USD</div>
-      </div>
-      
-      <div class="product-card" data-category="dubatta">
-        <div class="product-image-wrapper">
-          <img class="product-image" src="https://cdn.prod.website-files.com/66e1053e28584d60caa1ac5b/66e12acd0be34bb195d35e04_1.avif" alt="Gold Pearl Ring">
-        </div>
-        <div class="product-name">Gold Pearl Ring</div>
-        <div class="product-price">$499.99 USD</div>
-      </div>
-    </div>
-  </div>
+    <!-- TITLE -->
+  <div class="shop-title">Discover Our Products</div>
+  <!-- CATEGORIES -->
+  <nav class="categories-bar" aria-label="Product categories">
+    <button class="cat-btn active" data-category="all">All Products</button>
+    <span class="divider"></span>
+    <button class="cat-btn" data-category="shirts">Shirts</button>
+    <span class="divider"></span>
+    <button class="cat-btn" data-category="twopiece">2 Piece</button>
+  </nav>
   
-  <!-- Contact Section -->
-  <section class="contact-section">
-    <div class="contact-container">
-      <div class="contact-form">
-        <h2>Contact Us</h2>
-        <p>We'd love to hear from you! Send us a message and we'll get back to you as soon as possible.</p>
-        
-        <form>
-          <div class="form-group">
-            <input type="text" class="form-input" placeholder="Your Name" required>
-          </div>
-          
-          <div class="form-group">
-            <input type="email" class="form-input" placeholder="Your Email Address" required>
-          </div>
-          
-          <div class="form-group">
-            <input type="text" class="form-input" placeholder="Subject" required>
-          </div>
-          
-          <div class="form-group">
-            <textarea class="form-input form-textarea" placeholder="Your Message" required></textarea>
-          </div>
-          
-          <button type="submit" class="send-btn">Send Message</button>
-        </form>
+  <!-- PRODUCT GRID -->
+  <section id="shop">
+    <div class="product-grid" id="productGrid">
+      <!-- Shirts -->
+      <div class="product-card" data-category="shirts all">
+        <div class="product-image-wrapper">
+          <img class="product-image" src="https://images.unsplash.com/photo-1571945153237-4929dd6967e8?w=400&h=400&fit=crop" alt="Classic Pink Shirt">
+        </div>
+        <div class="product-name">Classic Pink Shirt</div>
+        <div class="product-price">$49.99 USD</div>
       </div>
-      
-      <div class="contact-info">
-        <h3>FRESAI KHAN</h3>
-        
-        <div class="info-item">
-          <div class="info-label">Phone</div>
-          <div class="info-value">+1 (555) 123-4567</div>
+      <div class="product-card" data-category="shirts all">
+        <div class="product-image-wrapper">
+          <img class="product-image" src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&h=400&fit=crop" alt="Blue Cotton Shirt">
         </div>
-        
-        <div class="info-item">
-          <div class="info-label">E-mail</div>
-          <div class="info-value">info@axelsjewelry.com</div>
+        <div class="product-name">Blue Cotton Shirt</div>
+        <div class="product-price">$39.99 USD</div>
+      </div>
+      <div class="product-card" data-category="shirts all">
+        <div class="product-image-wrapper">
+          <img class="product-image" src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=400&fit=crop" alt="Minimal White Shirt">
         </div>
-        
-        <div class="contact-buttons">
-          <a href="about.html" class="contact-btn">About Us</a>
-          <a href="contact.html" class="contact-btn">Contact</a>
-          <a href="shop.html" class="contact-btn">Shop Now</a>
+        <div class="product-name">Minimal White Shirt</div>
+        <div class="product-price">$44.99 USD</div>
+      </div>
+      <div class="product-card" data-category="shirts all">
+        <div class="product-image-wrapper">
+          <img class="product-image" src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop" alt="Casual Denim Shirt">
         </div>
+        <div class="product-name">Casual Denim Shirt</div>
+        <div class="product-price">$54.99 USD</div>
+      </div>
+      <div class="product-card" data-category="shirts all">
+        <div class="product-image-wrapper">
+          <img class="product-image" src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=400&h=400&fit=crop" alt="Striped Cotton Shirt">
+        </div>
+        <div class="product-name">Striped Cotton Shirt</div>
+        <div class="product-price">$42.99 USD</div>
+      </div>
+      <!-- 2 PIECE -->
+      <div class="product-card" data-category="twopiece all">
+        <div class="product-image-wrapper">
+          <img class="product-image" src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=400&h=400&fit=crop" alt="Ivory 2 Piece Set">
+        </div>
+        <div class="product-name">Ivory 2 Piece Set</div>
+        <div class="product-price">$99.99 USD</div>
+      </div>
+      <div class="product-card" data-category="twopiece all">
+        <div class="product-image-wrapper">
+          <img class="product-image" src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=400&h=400&fit=crop" alt="Summer Lawn 2 Piece">
+        </div>
+        <div class="product-name">Summer Lawn 2 Piece</div>
+        <div class="product-price">$89.99 USD</div>
+      </div>
+      <div class="product-card" data-category="twopiece all">
+        <div class="product-image-wrapper">
+          <img class="product-image" src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=400&fit=crop" alt="Grey Printed 2 Piece">
+        </div>
+        <div class="product-name">Grey Printed 2 Piece</div>
+        <div class="product-price">$94.99 USD</div>
+      </div>
+      <div class="product-card" data-category="twopiece all">
+        <div class="product-image-wrapper">
+          <img class="product-image" src="https://images.unsplash.com/photo-1539008835657-9e8e9680c956?w=400&h=400&fit=crop" alt="Rosy Mauve 2 Piece">
+        </div>
+        <div class="product-name">Rosy Mauve 2 Piece</div>
+        <div class="product-price">$109.99 USD</div>
+      </div>
+      <div class="product-card" data-category="twopiece all">
+        <div class="product-image-wrapper">
+          <img class="product-image" src="https://images.unsplash.com/photo-1583496661160-fb5886a13d77?w=400&h=400&fit=crop" alt="Elegant Black 2 Piece">
+        </div>
+        <div class="product-name">Elegant Black 2 Piece</div>
+        <div class="product-price">$119.99 USD</div>
+      </div>
+      <div class="product-card" data-category="twopiece all">
+        <div class="product-image-wrapper">
+          <img class="product-image" src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400&h=400&fit=crop" alt="Navy Casual 2 Piece">
+        </div>
+        <div class="product-name">Navy Casual 2 Piece</div>
+        <div class="product-price">$84.99 USD</div>
       </div>
     </div>
   </section>
-  
+
+  <!-- CONTACT FOOTER -->
+  <footer class="contact-footer">
+    <div class="contact-container">
+      <div class="contact-left">
+        <h2>Contact Us</h2>
+        <p>We'd love to hear from you! Send us a message and we'll get back to you as soon as possible.</p>
+        <form class="contact-form">
+          <input type="text" placeholder="Your Name" required>
+          <input type="email" placeholder="Your Email Address" required>
+          <input type="text" placeholder="Subject" required>
+          <textarea placeholder="Your Message" rows="5" required></textarea>
+          <button type="submit">SEND MESSAGE</button>
+        </form>
+      </div>
+      <div class="contact-right">
+        <h2>FRESAI KHAN</h2>
+        <div class="contact-info">
+          <div class="info-item">
+            <span class="label">PHONE</span>
+            <span class="value">+1 (555) 123-4567</span>
+          </div>
+          <div class="info-item">
+            <span class="label">E-MAIL</span>
+            <span class="value">info@axelsjewelry.com</span>
+          </div>
+        </div>
+        <div class="contact-buttons">
+          <button class="contact-btn">ABOUT US</button>
+          <button class="contact-btn">CONTACT</button>
+          <button class="contact-btn">SHOP NOW</button>
+        </div>
+      </div>
+    </div>
+  </footer>
+
   <script>
-    // Navigation link interaction
-    const navLinks = document.querySelectorAll('.nav-links a');
-    
-    navLinks.forEach(link => {
-      link.addEventListener('click', function(e) {
-        // Don't prevent default for actual navigation
-        
-        // Remove active class from all nav links
-        navLinks.forEach(l => l.classList.remove('active'));
-        
-        // Add active class to clicked link
+    // Category Filter Logic
+    const catBtns = document.querySelectorAll('.cat-btn');
+    const cards = document.querySelectorAll('.product-card');
+    catBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        catBtns.forEach(b => b.classList.remove('active'));
         this.classList.add('active');
-      });
-    });
-    
-    // Filtering with smooth transition
-    const categoryLinks = document.querySelectorAll('.category-link');
-    const productCards = document.querySelectorAll('.product-card');
-
-    categoryLinks.forEach(link => {
-      link.addEventListener('click', function() {
-        // Remove active from all, add to current
-        categoryLinks.forEach(l => l.classList.remove('active'));
-        this.classList.add('active');
-
-        const category = this.getAttribute('data-category');
-        
-        productCards.forEach(card => {
-          // Always remove 'hide' first for transition to work
-          card.classList.remove('hide');
-          // If not 'all', fade out products not in category
-          if (category !== 'all' && card.getAttribute('data-category') !== category) {
+        const cat = this.getAttribute('data-category');
+        cards.forEach(card => {
+          if (cat === 'all' || card.getAttribute('data-category').includes(cat)) {
+            card.classList.remove('hide');
+          } else {
             card.classList.add('hide');
           }
         });
