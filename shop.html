@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>FresaiKha | Shop</title>
-  <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     :root {
       --main-dark: #1e1e1e;
@@ -21,120 +21,111 @@
       margin: 0;
       padding: 0;
       background: var(--light-bg);
-      font-family: 'Playfair Display', serif;
+      font-family: 'Poppins', sans-serif;
       color: var(--main-dark);
       box-sizing: border-box;
       letter-spacing: 0.02em;
       min-width: 340px;
     }
-    /* HEADER */
+
+    /* HEADER - MATCHING FIRST CODE EXACTLY */
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 14px 48px 8px 85px;
-      width: 100vw;
-      background: #fff;
-      border-bottom: 1px solid #eee;
-      min-height: 56px;
-      box-sizing: border-box;
-      position: sticky;
-      top: 0;
+      padding: 15px clamp(20px, 5vw, 60px);
+      position: fixed;
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
       z-index: 1000;
+      border-bottom: 1px solid rgba(220, 220, 220, 0.5);
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+      top: 0;
+      left: 0;
     }
+
     .logo {
       font-family: 'Playfair Display', serif;
+      font-size: clamp(18px, 4vw, 24px);
       font-weight: 700;
-      font-size: 1.75rem;
-      letter-spacing: 0.04em;
-      color: #212121;
-      margin-right: 28px;
-      user-select: none;
-      white-space: nowrap;
-      line-height: 1;
+      letter-spacing: 1px;
+      color: #000000;
       text-decoration: none;
+      cursor: pointer;
+      transition: color 0.3s ease;
     }
-    nav {
-      display: flex;
-      gap: 48px;
-      align-items: center;
-      margin-right: 20px;
-      flex: 1 1 auto;
-      justify-content: center;
-    }
-    nav a {
-      font-size: 1.0rem;
-      color: #222;
-      text-decoration: none;
-      letter-spacing: 0.04em;
-      font-weight: 700;
-      transition: color 0.17s;
-      padding: 4px 0;
-      position: relative;
-    }
-    nav a:hover {
+
+    .logo:hover {
       color: #D4AF37;
     }
+
+    nav {
+      display: flex;
+      gap: clamp(15px, 4vw, 40px);
+      align-items: center;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      font-size: clamp(12px, 2.5vw, 16px);
+      position: relative;
+      transition: all 0.3s ease;
+      padding: 8px 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    nav a:hover {
+      color: #D4AF37;
+      transform: translateY(-2px);
+    }
+
     nav a::after {
       content: "";
       position: absolute;
       left: 50%;
       bottom: 0;
-      transform: translateX(-50%) scaleX(0);
-      width: 88%;
-      height: 2.1px;
-      background: linear-gradient(90deg, #D4AF37, #b8941f 70%);
+      transform: translateX(-50%);
+      width: 0%;
+      height: 2px;
+      background: linear-gradient(90deg, #D4AF37, #B8941F);
+      transition: width 0.3s ease;
       border-radius: 2px;
-      opacity: 0.88;
-      transition: transform 0.33s cubic-bezier(.69,.18,.36,1.09);
-      pointer-events: none;
     }
+
     nav a:hover::after {
-      transform: translateX(-50%) scaleX(1);
+      width: 100%;
     }
-    .cart-spot {
+
+    .cart-icon {
       position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      width: 42px;
-      height: 15px;
-      margin-right: 22px;
+      font-size: clamp(18px, 4vw, 20px);
+      cursor: pointer;
+      transition: transform 0.3s ease;
     }
-    .cart-emoji {
-      font-size: 1.4rem;
-      line-height: 1;
-      filter: drop-shadow(0 2px 0 #eee);
-      z-index: 2;
-    }
+
     .cart-icon:hover {
       transform: scale(1.1);
     }
-    .cart-count {
+
+    .cart-icon::after {
+      content: "0";
       position: absolute;
-      top: -10px;
-      right: -10px;
-      background: #444;
+      top: -8px;
+      right: -12px;
+      background: linear-gradient(45deg, #333, #555);
       color: #fff;
-      min-width: 23px;
-      height: 12px;
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.8rem;
-      font-weight: 700;
-      font-family: Arial, sans-serif;
-      box-shadow: 0 2px 10px #ccc;
-      z-index: 3;
-      letter-spacing: 0.01em;
+      border-radius: 50%;
+      padding: 2px 6px;
+      font-size: 10px;
+      font-weight: 600;
+      min-width: 18px;
+      text-align: center;
     }
-    @media (max-width: 700px) {
-      header { padding: 10px 10vw 7px 7vw; }
-      nav { gap: 22px; }
-      .logo { font-size: 1.19rem; }
-      .cart-spot { width: 33px;}
-    }
+
     /* SECTION TITLE */
     .shop-title {
       text-align: center;
@@ -142,12 +133,13 @@
       font-family: 'Playfair Display', serif;
       font-weight: 400;
       margin-bottom: 26px;
-      margin-top: 16px;
+      margin-top: 120px; /* Increased to account for fixed header */
       letter-spacing: 0.04em;
       color: #242424;
       padding: 0;
       opacity: 0.97;
     }
+
     /* CATEGORIES */
     .categories-bar {
       display: flex;
@@ -195,19 +187,7 @@
       display: inline-block;
       vertical-align: middle;
     }
-    /* SECTION TITLE */
-    .shop-title {
-      text-align: center;
-      font-size: 2.7rem;
-      font-family: 'Playfair Display', serif;
-      font-weight: 400;
-      margin-bottom: 26px;
-      margin-top: 16px;
-      letter-spacing: 0.04em;
-      color: #242424;
-      padding: 0;
-      opacity: 0.97;
-    }
+
     /* PRODUCT GRID */
     .product-grid {
       max-width: 1360px;
@@ -291,7 +271,7 @@
       from { opacity: 0; transform: translateY(36px);}
       to { opacity: 1; transform: none;}
     }
-    /* CONTACT FOOTER (Your provided CSS) */
+    /* CONTACT FOOTER */
     .contact-footer {
       background: linear-gradient(135deg, #EEEEEA, #E8E8E4);
       padding: clamp(40px, 10vw, 60px) clamp(20px, 5vw, 60px);
@@ -319,6 +299,7 @@
       color: #555;
       margin-bottom: 30px;
       line-height: 1.6;
+      font-family: 'Poppins', sans-serif;
     }
     .contact-form {
       display: flex;
@@ -357,6 +338,7 @@
       margin-top: 10px;
       border-radius: 8px;
       letter-spacing: 1px;
+      font-family: 'Poppins', sans-serif;
     }
     .contact-form button:hover {
       background: linear-gradient(45deg, #D4AF37, #B8941F);
@@ -387,11 +369,13 @@
       font-weight: 500;
       margin-bottom: 5px;
       letter-spacing: 1px;
+      font-family: 'Poppins', sans-serif;
     }
     .info-item .value {
       font-size: clamp(14px, 3vw, 16px);
       color: #555;
       font-weight: 500;
+      font-family: 'Poppins', sans-serif;
     }
     .contact-buttons {
       display: flex;
@@ -410,6 +394,9 @@
       text-align: center;
       border-radius: 8px;
       letter-spacing: 1px;
+      font-family: 'Poppins', sans-serif;
+      text-decoration: none;
+      display: inline-block;
     }
     .contact-btn:hover {
       background: linear-gradient(45deg, #D4AF37, #B8941F);
@@ -419,22 +406,21 @@
       box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
     }
     @media (max-width: 1200px) {
-      header {padding: 10px 8vw 7px 7vw;}
       .product-grid {gap: 32px 12px;}
     }
     @media (max-width: 970px) {
       .product-grid {grid-template-columns: 1fr 1fr;}
     }
+    @media (max-width: 768px) {
+      .contact-container {flex-direction: column; gap: 32px;}
+      .shop-title {margin-top: 100px;}
+    }
     @media (max-width: 680px) {
-      header { flex-direction: column; padding: 9px 3vw 9px 4vw; align-items: flex-start;}
-      .logo {margin-right: 0;}
-      nav { gap: 22px;}
       .product-grid {grid-template-columns: 1fr;}
       .categories-bar {margin-top: 32px;}
-      .shop-title {font-size: 1.6rem;}
+      .shop-title {font-size: 1.6rem; margin-top: 90px;}
       .product-card {padding: 20px 2px 18px 2px;}
       .product-image-wrapper {width: 90px; height: 90px;}
-      .contact-container {flex-direction: column; gap: 32px;}
     }
     button:focus, .cat-btn:focus, .cart-btn:focus, .nav-link:focus {outline: none;}
   </style>
@@ -448,12 +434,10 @@
       <a href="about.html">ABOUT</a>
       <a href="contact.html">CONTACT</a>
     </nav>
-    <span class="cart-spot">
-      <span class="cart-count">0</span>
-      <span class="cart-emoji" title="Cart">👜</span>
-    </span>
+    <div class="cart-icon">👜</div>
   </header>
-    <!-- TITLE -->
+
+  <!-- TITLE -->
   <div class="shop-title">Discover Our Products</div>
   <!-- CATEGORIES -->
   <nav class="categories-bar" aria-label="Product categories">
@@ -576,9 +560,9 @@
           </div>
         </div>
         <div class="contact-buttons">
-          <button class="contact-btn">ABOUT US</button>
-          <button class="contact-btn">CONTACT</button>
-          <button class="contact-btn">SHOP NOW</button>
+          <a href="about.html" class="contact-btn">ABOUT US</a>
+          <a href="contact.html" class="contact-btn">CONTACT</a>
+          <a href="shop.html" class="contact-btn">SHOP NOW</a>
         </div>
       </div>
     </div>
